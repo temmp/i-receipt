@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Ireciept</string>
+
+	<string name="new_scan_handler">new_scan_handler</string>
+	<string name="manual_scan_handler">manual_scan_handler</string>
+	<string name="receipts_handler">receipts_handler</string>
+	<string name="statistics_handler">statistics_handler</string>
+	    
+	<color name="gray">#cccccc</color>
+	<color name="black">#000000</color>
+	<color name="col">#FFF8DC</color>
+<color name="Tex">#A52A2A</color>
+<string name="CatEdit">OnClickEditCatDialog</string>
+<string name="getDialogPrice">OnClickEditPricekDialog</string>
+<string name="closeDialog">close5Dialog</string>
+<string name="EditStoreName">OnClickEditStoreDialog</string>
+
+
+
+
+
+</resources>
