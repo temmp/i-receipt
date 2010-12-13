@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout android:id="@+id/TableLayout01" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout android:id="@+id/LinearLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@color/gray">
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Date" android:textSize="9pt" android:layout_marginLeft="12pt" android:textColor="@color/black" android:id="@+id/TextView02listofR"></TextView>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total" android:textSize="9pt" android:layout_marginLeft="18pt" android:textColor="@color/black" android:id="@+id/TextView03listofR"></TextView>
-	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Buisness name" android:textSize="9pt" android:layout_marginLeft="10pt" android:textColor="@color/black" android:id="@+id/TextView04listofR"></TextView>
-</LinearLayout>
-<RelativeLayout android:id="@+id/RelativeLayout01" android:layout_width="wrap_content" android:layout_height="wrap_content">
-	<ListView android:id="@+id/ListView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="55sp"></ListView>
-	
-	<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:id="@+id/LinearLayout03listofR" android:layout_marginLeft="20sp">
-		<ImageButton android:layout_toLeftOf="@+id/LinearLayout03listofR" android:id="@+id/ImageButton01forback" android:src="@drawable/back_buttonnew" android:layout_width="75sp" android:layout_height="50sp" android:layout_gravity="bottom|left" android:onClick="onClick"></ImageButton>
-		<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="8pt" android:text="Sort by:  " android:id="@+id/TextView01listofR"></TextView>
-		<Spinner android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Spinner01listofR"></Spinner>
-	
-</LinearLayout>
-
-</RelativeLayout>
+<TableLayout android:id="@+id/TableLayout01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<LinearLayout android:background="@color/col"
+		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_height="wrap_content" android:layout_gravity="center" android:id="@+id/Layout02list">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textColor="@color/Tex" android:textStyle="bold" android:id="@+id/Tex01" android:textSize="10pt" android:layout_marginLeft="70sp" android:text="List of Receipts"></TextView>
+		<Button android:text="Back"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:id="@+id/But01" android:onClick="onClick2" android:layout_marginLeft="10sp"></Button>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout01"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:background="@color/gray">
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Date"
+			android:textSize="9pt" android:textColor="@color/black" android:id="@+id/TextView02listofR"
+			android:layout_marginLeft="14pt"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="Total"
+			android:textSize="9pt" android:layout_marginLeft="18pt"
+			android:textColor="@color/black" android:id="@+id/TextView03listofR"></TextView>
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:textSize="9pt"
+			android:textColor="@color/black" android:id="@+id/TextView04listofR"
+			android:text="Business" android:layout_marginLeft="16pt"></TextView>
+	</LinearLayout>
+	<RelativeLayout android:id="@+id/RelativeLayout01"
+		android:layout_height="fill_parent" android:layout_width="fill_parent">
+		<ListView android:id="@+id/ListView01" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:layout_marginBottom="55sp"
+			android:background="@color/black"></ListView>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_alignParentBottom="true" android:id="@+id/LinearLayout03listofR"
+			android:background="@color/white" android:layout_width="fill_parent">
+			<TextView android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:textSize="8pt"
+				android:text="Sort by:  " android:id="@+id/TextView01listofR"
+				android:textColor="@color/black" android:layout_marginLeft="23pt"></TextView>
+			<Spinner android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/Spinner01listofR"></Spinner>
+		</LinearLayout>
+	</RelativeLayout>
 </TableLayout>

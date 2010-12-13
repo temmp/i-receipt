@@ -35,7 +35,7 @@ public class OCR {
 	private String username;
 	private String password;
 	return_entry[] total;
-	Date[] date;
+	IDate[] date=null;
 	return_entry[] store_name;
 
 	public OCR(String filePath,String username,String password) {
@@ -171,7 +171,7 @@ public class OCR {
 		for (int i = 0; i < str.length(); i++) {
 
 			c = str.charAt(i);
-			if (c != '\t' && c != '\n' && c != ' ') {
+			if (c != '\t' && c != '\n' && c != ' '&&c!= '\r') {
 				if (t) {
 					sum++;
 				}
@@ -197,7 +197,7 @@ public class OCR {
 		for (int i = 0; i < src.length(); i++) {
 			c = src.charAt(i);
 			// check if it is char
-			if (c != '\t' && c != '\n' && c != ' ') {
+			if (c != '\t' && c != '\n' && c != ' '&& c!='\r') {
 				str_arr[j] = str_arr[j] + Character.toString(c).toLowerCase();
 				t = true;
 
@@ -569,17 +569,115 @@ public class OCR {
 		return false;
 
 	}
-	public Date[] getDate(){
+	
+	public IDate[] getDate(){
 		if (this.date==null)
-			this.date = getDater();
+			this.date=getDatehelp();
 		return this.date;
+		
+	}
+	
+	private IDate[] getDatehelp() {
+		IDate ret[] = new IDate[4];
+		int p;
+		for (p = 0; p < 4; p++) {
+			ret[p] = null;
+		}
+		int months[] = new int[5];
+		int t;
+		int t2;
+		int year = 0;
+		int day = 0;
+		String year_s;
+		String month_s;
+		String day_s;
+		for (int i = 0; i < ocr_return.length; i++) {
+			if (date_typeA(ocr_return[i])) { // date is type of month/day/year
+				t = ocr_return[i].indexOf('/');
+				t2 = ocr_return[i].indexOf('/', t + 1);
+				month_s = ocr_return[i].substring(0, t);// get the month from the
+													// string
+				day_s = ocr_return[i].substring(t + 1, t2);// get the day from the
+													// string
+				year_s = ocr_return[i].substring(t2 + 1, ocr_return[i].length());// get the
+																	// year from
+																	// the
+																	// string
+				year = is_aYear(year_s);
+				day = is_aDay(day_s);
+				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed
+																				// to
+																				// get
+																				// the
+																				// date
+					for (int j = 0; j < months[0]; j++) {
+						ret[j] = ret[j] = new IDate(year,months[1], day);
+					}
+					//return ret;
+				}
+			}
+			if (date_typeB(ocr_return[i])) { // date is type of month-day-year
+				t = ocr_return[i].indexOf('-');
+				t2 = ocr_return[i].indexOf('-', t + 1);
+				month_s = ocr_return[i].substring(0, t);// get the month from the
+													// string
+				day_s = ocr_return[i].substring(t + 1, t2);// get the day from the
+													// string
+				year_s = ocr_return[i].substring(t2 + 1, ocr_return[i].length());// get the
+																	// year from
+																	// the
+																	// string
+				year = is_aYear(year_s);
+				day = is_aDay(day_s);
+				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed
+																				// to
+																				// get
+																				// the
+																				// date
+					for (int j = 0; j < months[0]; j++) {
+						ret[j] = ret[j] = new IDate(year,months[1], day);
+					}
+					//return ret;
+				}
+			}
+			if (date_typeC(ocr_return[i])) { // date is type of 12-NOV-10
+				t = ocr_return[i].indexOf('-');
+				t2 = ocr_return[i].indexOf('-', t + 1);
+				day_s = ocr_return[i].substring(0, t); // get the day from the string
+				month_s = ocr_return[i].substring(t + 1, t2); // get the month from the
+														// string
+				year_s = ocr_return[i].substring(t2 + 1, ocr_return[i].length());// get the
+																	// year from
+																	// the
+																	// string
+				year = is_aYear(year_s);
+				day = is_aDay(day_s);
+				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed
+																				// to
+																				// get
+																				// the
+																				// date
+					for (int j = 0; j < months[0]; j++) {
+						ret[j] = ret[j] = new IDate(year,months[1], day);
+					}
+					//return ret;
+				}
+			}
+			year = 0;
+			day = 0;
+			for (p = 0; p < 5; p++) {
+				months[p] = 0;
+			}
+		}
+
+		return ret;
 	}
 	
 	// the functuon return array size 4 that inclucde up to four diffrent dates
 	// if there is no valid date it ret null
-	
-	public Date[] getDater() {
-		Date ret[] = new Date[4];
+	/*
+	public IDate[] getDater() {
+		IDate ret[] = new IDate[4];
 		int p;
 		for (p = 0; p < 4; p++) {
 			ret[p] = null;
@@ -605,7 +703,7 @@ public class OCR {
 				day = is_aDay(day_s);
 				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed to get the date
 					for (int j = 0; j < months[0]; j++) {
-						ret[j] = ret[j] = new Date(year - 1900,
+						ret[j] = ret[j] = new IDate(year - 1900,
 								months[j + 1] - 1, day);
 					}
 					return ret;
@@ -621,7 +719,7 @@ public class OCR {
 				day = is_aDay(day_s);
 				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed to get the date
 					for (int j = 0; j < months[0]; j++) {
-						ret[j] = new Date(year - 1900, months[j + 1] - 1, day);
+						ret[j] = new IDate(year - 1900, months[j + 1] - 1, day);
 					}
 					return ret;
 				}
@@ -636,7 +734,7 @@ public class OCR {
 				day = is_aDay(day_s);
 				if (year != -1 && day != -1 && is_aMonth(month_s, months)) { // succeed to get the date
 					for (int j = 0; j < months[0]; j++) {
-						ret[j] = new Date(year - 1900, months[j + 1] - 1, day);
+						ret[j] = new IDate(year - 1900, months[j + 1] - 1, day);
 					}
 					return ret;
 				}
@@ -669,7 +767,7 @@ public class OCR {
 		else
 			return -1;
 	}
-
+*/
 // get char and convert it to int
 
 	private static int is_aYear(String year) {
@@ -685,10 +783,10 @@ public class OCR {
 			else
 				sum = sum * 10 + tmp;
 		}
-		if (sum >= 10 && sum <= 20) {
+		if (sum >= 0 && sum <= 20) {
 			return sum + 2000;
 		}
-		if (sum >= 2010 && sum <= 2020)
+		if (sum >= 2000 && sum <= 2020)
 			return sum;
 		return -1;
 	}
@@ -860,6 +958,24 @@ public class OCR {
 		if (month.equals(trg1) || month.equals(trg2) || month.equals(trg3)
 				|| month.equals(trg4))
 			return true;
+		String str1="";
+		String str2="";
+		if (month.length()==3){
+			str1=str1+right_char(month.charAt(0))+right_char(month.charAt(1));
+			str2=str2+right_char(month.charAt(1))+right_char(month.charAt(2));
+			if (str1.equals(trg3)|| str2.equals(trg3))
+				return true;
+		}
+		if (month.length()==2){
+			str1="";
+			str2="";
+			String str3="";
+			str1=str1+right_char(month.charAt(0));
+			str2=str2+right_char(month.charAt(1));
+			str3=str1+str2;
+			if (str1.equals(trg4)|| str2.equals(trg4)||str3.equals(trg3))
+				return true;
+		}
 		if (allmost(month, trg1) || allmostTwo(month, trg2, index))
 			return true;
 		return false;
@@ -906,7 +1022,53 @@ public class OCR {
 	
 	
 	
-
+	private static int is_aDay(String day) {
+		int sum = 0;
+		int tmp;
+		int tmp1;
+		int tmp2;
+		if (day.length() != 1 && day.length() != 2&& day.length()!=3)
+			return -1;
+		if (day.length()==3){
+			tmp1=is_aDay(day.substring(0,2));
+			tmp2=is_aDay(day.substring(1,3));
+			if(tmp1!=-1)
+				return tmp1;
+			return tmp2;
+		}
+		if (day.length()==2){
+		tmp = right_char(day.charAt(0));
+		if (tmp == -1)
+			return -1;
+		sum = tmp;
+		tmp = right_char(day.charAt(1));
+		if (tmp == -1)
+			return -1;
+		sum = sum * 10 + tmp;
+		if (sum > 0 && sum < 32)
+			return sum;
+		else{
+			int tmp3;
+			tmp = right_char(day.charAt(0));
+			tmp3 = right_char(day.charAt(1));
+			if (tmp> 0 && tmp < 9){
+				if (tmp3>0 && tmp3<9)
+					return -1;
+				else
+					return tmp;
+			}
+			else
+				if (tmp3>0 && tmp3<9)
+					return tmp3;
+		}
+		}
+		if (day.length()==1){
+			tmp=right_char(day.charAt(0));
+			if (tmp>0 && tmp <9)
+				return tmp;
+		}
+	return -1;
+		}
 	public static class return_entry{
 		private int priority;
 		private String entry;
