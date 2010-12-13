@@ -1,6 +1,7 @@
 package bodner.idan;
 
 import java.io.FileNotFoundException;
+import bodner.idan.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Calendar;
@@ -18,15 +19,18 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class compute_receipt extends Activity {
 	/** Called when the activity is first created. */
 	// public static DocsService client= new DocsService("My new Application");
 
-	private Button mPickDate;
+	private TextView PickDate;
 	private int mYear;
 	private int mMonth;
 	private int mDay;
@@ -44,7 +48,7 @@ public class compute_receipt extends Activity {
 	private ArrayAdapter<String> adapter_s;
 	private ArrayAdapter<String> adapter_c;
 	private iReceipt r;
-	boolean t=false;//if true come from manual scan else come from rec_list
+	boolean t = false;// if true come from manual scan else come from rec_list
 	DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -53,7 +57,7 @@ public class compute_receipt extends Activity {
 			mMonth = monthOfYear;
 			mDay = dayOfMonth;
 			dates[3] = mMonth + 1 + "-" + mDay + "-" + mYear;
-			r.setRdate(new Date(year, monthOfYear + 1, dayOfMonth));
+			r.setRdate(new IDate(year, monthOfYear + 1, dayOfMonth));
 			spinner_d.setSelection(3);
 
 		}
@@ -64,20 +68,20 @@ public class compute_receipt extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.compute_receipt_layout);
 		int index = getIntent().getFlags();
-		r= (iReceipt) idan.rec_arr.get(index);
-		boolean good_ocr=false;
-		if(r.getFilepath()!=null)
-			good_ocr=preform_ocr(r);
-		if (!good_ocr){
-		prices[0] = "";
-		prices[1] = "";
-		prices[2] = "";
-		prices[3] = "";
-		dates[0] = "";
-		dates[1] = "";
-		dates[2] = "";
-		dates[3] = "";
-                      }
+		r = (iReceipt) idan.rec_arr.get(index);
+		boolean good_ocr = false;
+		if (r.getFilepath() != null)
+			good_ocr = preform_ocr(r);
+		if (!good_ocr) {
+			prices[0] = "";
+			prices[1] = "";
+			prices[2] = "";
+			prices[3] = "";
+			dates[0] = "";
+			dates[1] = "";
+			dates[2] = "";
+			dates[3] = "";
+		}
 		stores[0] = "";
 		stores[1] = "";
 		stores[2] = "";
@@ -87,15 +91,12 @@ public class compute_receipt extends Activity {
 		cat[1] = "Fuel";
 		cat[2] = "market";
 		cat[3] = "cloths";
-		
+
 		/*
-		Bundle extras = getIntent().getExtras();
-        if (extras!= null){
-        	r= (iReceipt) extras.getSerializable("Receipt");
-        }
-        if (extras.getBoolean("man"))// arrived from manual sacn
-        	t=true;
-        */
+		 * Bundle extras = getIntent().getExtras(); if (extras!= null){ r=
+		 * (iReceipt) extras.getSerializable("Receipt"); } if
+		 * (extras.getBoolean("man"))// arrived from manual sacn t=true;
+		 */
 
 		// used this button when get a Receipt from singer
 		/*
@@ -103,9 +104,9 @@ public class compute_receipt extends Activity {
 		 * r=(iReceipt)extras.getSerializable("Receipt");
 		 */
 
-		//r=new iReceipt();
+		// r=new iReceipt();
 		// just for check now need to insert content by OCR
-		
+
 		// --------------------------------------------------
 
 		spinner_s = (Spinner) findViewById(R.id.Spinner01);
@@ -144,10 +145,9 @@ public class compute_receipt extends Activity {
 		spinner_c
 				.setOnItemSelectedListener(new MyOnItemSelectedListenerSpinner04());
 
-		mPickDate = (Button) findViewById(R.id.Button02EditDate);
+		PickDate = (TextView) findViewById(R.id.EditDate);
 
-		// add a click listener to the button
-		mPickDate.setOnClickListener(new View.OnClickListener() {
+		PickDate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				showDialog(DATE_DIALOG_ID);
 			}
@@ -160,30 +160,31 @@ public class compute_receipt extends Activity {
 		mDay = c.get(Calendar.DAY_OF_MONTH);
 
 	}
-	
-	private boolean preform_ocr (iReceipt r){
-		OCR ocr_obj=new OCR(r.getFilepath(),"google_username","google_password");
-		int ret=0;
+
+	private boolean preform_ocr(iReceipt r) {
+		OCR ocr_obj = new OCR(r.getFilepath(), "google_username",
+				"google_password");
+		int ret = 0;
 		try {
-			ret=ocr_obj.preformOCR();
+			ret = ocr_obj.preformOCR();
 		} catch (FileNotFoundException e) {
 			return false;
 		} catch (IOException e) {
 			return false;
 		}
-		if (ret!=1)
+		if (ret != 1)
 			return false;
 		for (int i = 0; i < prices.length; i++) {
-			if(ocr_obj.get_total()[i].getEntry()==null)
-				prices[i]="";
+			if (ocr_obj.get_total()[i].getEntry() == null)
+				prices[i] = "";
 			else
-				prices[i]=new String(ocr_obj.get_total()[i].getEntry());
-			if (ocr_obj.getDate()[i]==null)
-				dates[i]="";
+				prices[i] = new String(ocr_obj.get_total()[i].getEntry());
+			if (ocr_obj.getDate()[i] == null)
+				dates[i] = "";
 			else
-				dates[i]=ocr_obj.getDate()[i].toString();
+				dates[i] = ocr_obj.getDate()[i].toString();
 		}
-return true;	
+		return true;
 	}
 
 	// handler for spinner 03
@@ -213,15 +214,15 @@ return true;
 				long id) {
 			Object item = parent.getItemAtPosition(pos);
 			String str = (String) item;
-			Date date;
+			IDate date;
 			if (str.equals(""))
-				date=new Date(2010,10,10);
-			else{
-			String str_arr[] = str.split("-");
-			int month = Integer.parseInt(str_arr[0]);
-			int day = Integer.parseInt(str_arr[1]);
-			int year = Integer.parseInt(str_arr[2]);
-			date = new Date(year, month, day);
+				date = new IDate(2010, 10, 10);
+			else {
+				String str_arr[] = str.split("-");
+				int month = Integer.parseInt(str_arr[0]);
+				int day = Integer.parseInt(str_arr[1]);
+				int year = Integer.parseInt(str_arr[2]);
+				date = new IDate(year, month, day);
 			}
 			r.setRdate(date);
 		}
@@ -310,18 +311,14 @@ return true;
 			// b2 is cancel button
 			Button b2 = (Button) dialog5.findViewById(R.id.Button02Dialogprice);
 			b2.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					dialog5.dismiss();
-
 				}
 			});
 			dialog5.show();
 			return null;
-
 		}
-
 		case 3: {
 			final Dialog dialog3 = new Dialog(this);
 			dialog3.setContentView(R.layout.edit_store_layout);
@@ -401,28 +398,28 @@ return true;
 	}
 
 	public void onClick(View view) {
+		setResult(1);
 		r.setProcessed(true);
 		saveList();
 		finish();
-		
 	}
-		
-		public void saveList(){
+	public void onClick2(View view) {
+		setResult(0);
+		finish();
+	}
 
-			try{
-				ObjectOutputStream outputStream = new ObjectOutputStream(openFileOutput("RecList1.tmp", Context.MODE_PRIVATE));
-				outputStream.writeObject(idan.rec_arr);
-				outputStream.close();
-
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}	
+	public void saveList() {
+		try {
+			ObjectOutputStream outputStream = new ObjectOutputStream(
+					openFileOutput("RecList1.tmp", Context.MODE_PRIVATE));
+			outputStream.writeObject(idan.rec_arr);
+			outputStream.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
-
-
-
-	 protected void onActivityResult(int requestCode, int resultCode, Intent data){
-		 finish();
-	 }
 	}
-	 
+
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		finish();
+	}
+}

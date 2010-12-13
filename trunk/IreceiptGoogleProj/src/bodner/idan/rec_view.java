@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,21 +28,23 @@ public class rec_view extends Activity {
 	private int mDay;
 	static final int DATE_DIALOG_ID = 0;
 	private iReceipt rec;
-	private EditText text[]=new EditText[4];
-	
-	
+	private EditText text[] = new EditText[4];
+	private CheckBox check;
+	ImageView image;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.receiptpage);
-		rec=idan.rec_arr.get(getIntent().getFlags());
-		ImageView image = (ImageView) findViewById(R.id.Image01);
-		if (rec.getFilepath()!=null)
+		rec = idan.rec_arr.get(getIntent().getFlags());
+		image = (ImageView) findViewById(R.id.Image01);
+		if (rec.getFilepath() != null)
 			image.setImageResource(R.drawable.receipt);
-		
+
 		// capture our View elements
 		mDateDisplay = (TextView) findViewById(R.id.dateDisplay);
 		mPickDate = (Button) findViewById(R.id.pickDate);
+		check = (CheckBox) findViewById(R.id.CheckBox01);
 
 		// add a click listener to the button
 		mPickDate.setOnClickListener(new View.OnClickListener() {
@@ -49,32 +52,32 @@ public class rec_view extends Activity {
 				showDialog(DATE_DIALOG_ID);
 			}
 		});
-		
-		/*Bundle extras = getIntent().getExtras();
-        if (extras== null){
-        	return;
-        }
-        rec= (iReceipt) extras.getSerializable("Receipt");*/
-		
+
+		/*
+		 * Bundle extras = getIntent().getExtras(); if (extras== null){ return;
+		 * } rec= (iReceipt) extras.getSerializable("Receipt");
+		 */
+
 		text[0] = (EditText) findViewById(R.id.EText01);
 		text[1] = (EditText) findViewById(R.id.EText02);
 		text[2] = (EditText) findViewById(R.id.EText03);
-		text[3] = (EditText) findViewById(R.id.EText04);
-		
+
 		text[0].setText(rec.getStoreName());
 		text[1].setText(((Double) rec.getTotal()).toString());
 		text[2].setText(rec.getCategory());
-		if (rec.isFlaged()) text[3].setText("Yes");
-		else text[3].setText("No");
-		
-		
+		check.setChecked(rec.isFlaged());
+		/*
+		 * if (rec.isFlaged()) text[3].setText("Yes"); else
+		 * text[3].setText("No");
+		 */
+
 		// get the current date
 		mYear = rec.getRdate().getYear();
-	    mMonth = rec.getRdate().getMonth()-1;
-	    mDay = rec.getRdate().getDay();
+		mMonth = rec.getRdate().getMonth() - 1;
+		mDay = rec.getRdate().getDay();
 		// display the current date (this method is below)
 		updateDisplay();
-			
+
 	}
 
 	// updates the date in the TextView
@@ -105,44 +108,51 @@ public class rec_view extends Activity {
 		}
 		return null;
 	}
-	public void onClick(View view){
-			Date d;
-			d=new Date(mYear,mDay,mMonth+1);
-			rec.setRdate((Date)d);
-			rec.setStoreName(text[0].getText().toString());
-			rec.setTotal(Double.parseDouble(text[1].getText().toString()));
-			rec.setCategory(text[2].getText().toString());
-		//	Intent i = new Intent(this, rec_list.class);
-		//	i.putExtra("Receipt", rec);
-		//	setResult(10, i);
-		//	saveR(rec);
-			saveList();
-			finish();
-		}
+	public void onClickPic (View view){
+		Intent i = new Intent(this, bigPic.class);
+		i.putExtra("image_id",R.drawable.receipt);
+		startActivity(i);
+	}
 	
-	public void saveList(){
 
-		try{
-			ObjectOutputStream outputStream = new ObjectOutputStream(openFileOutput("RecList1.tmp", Context.MODE_PRIVATE));
+	
+	public void onClick(View view) {
+		IDate d;
+		d = new IDate(mYear, mDay, mMonth + 1);
+		rec.setRdate((IDate) d);
+		rec.setStoreName(text[0].getText().toString());
+		rec.setTotal(Double.parseDouble(text[1].getText().toString()));
+		rec.setCategory(text[2].getText().toString());
+		rec.setFlaged(check.isChecked());
+		// Intent i = new Intent(this, rec_list.class);
+		// i.putExtra("Receipt", rec);
+		// setResult(10, i);
+		// saveR(rec);
+		saveList();
+		finish();
+	}
+
+	public void saveList() {
+
+		try {
+			ObjectOutputStream outputStream = new ObjectOutputStream(
+					openFileOutput("RecList1.tmp", Context.MODE_PRIVATE));
 			outputStream.writeObject(idan.rec_arr);
 			outputStream.close();
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-		}	
+		}
 	}
 	/*
-	public void saveR(iReceipt r) {
-		
-		  try{
-		    ObjectOutputStream outputStream = new ObjectOutputStream(openFileOutput(r.getplaceofsave(), Context.MODE_PRIVATE));
-		    outputStream.writeObject(r);
-		    outputStream.close();
-		   
-		  } catch (IOException ex) {
-		        ex.printStackTrace();
-		  }
-	}
-*/
+	 * public void saveR(iReceipt r) {
+	 * 
+	 * try{ ObjectOutputStream outputStream = new
+	 * ObjectOutputStream(openFileOutput(r.getplaceofsave(),
+	 * Context.MODE_PRIVATE)); outputStream.writeObject(r);
+	 * outputStream.close();
+	 * 
+	 * } catch (IOException ex) { ex.printStackTrace(); } }
+	 */
 
 }
