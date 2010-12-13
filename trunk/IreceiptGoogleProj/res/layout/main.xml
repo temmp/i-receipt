@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:layout_gravity="center_vertical|center_horizontal|center">
+
+	<ImageButton android:layout_x="430px" android:layout_y="219px"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:scaleType="center" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_gravity="center_vertical|center_horizontal|center"
+		android:id="@+id/new_scan" android:background="@drawable/new_scan"
+		android:src="@drawable/new_scan" android:clickable="true"
+		android:layout_centerHorizontal="true" android:layout_margin="3dp"
+		android:onClick="@string/new_scan_handler" />
+
+	<ImageButton android:layout_x="430px" android:layout_y="219px"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:scaleType="center" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_gravity="center_vertical|center_horizontal|center"
+		android:id="@+id/manual_scan" android:background="@drawable/manual_scan"
+		android:src="@drawable/manual_scan" android:clickable="true"
+		android:layout_centerHorizontal="true" android:layout_margin="3dp"
+		android:onClick="@string/manual_scan_handler" />
+
+	<ImageButton android:layout_x="430px" android:layout_y="219px"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:scaleType="center" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_gravity="center_vertical|center_horizontal|center"
+		android:id="@+id/receipts" android:background="@drawable/receipts"
+		android:src="@drawable/receipts" android:clickable="true"
+		android:layout_centerHorizontal="true" android:layout_margin="3dp"
+		android:onClick="@string/receipts_handler" />
+
+	<ImageButton android:layout_x="430px" android:layout_y="219px"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:scaleType="center" android:gravity="center_vertical|center_horizontal|center"
+		android:layout_gravity="center_vertical|center_horizontal|center"
+		android:id="@+id/stats" android:background="@drawable/stats"
+		android:src="@drawable/stats" android:clickable="true"
+		android:layout_centerHorizontal="true" android:layout_margin="3dp"
+		android:onClick="@string/statistics_handler" />
+
+</LinearLayout>
