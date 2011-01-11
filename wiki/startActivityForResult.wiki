@@ -1,0 +1,2 @@
+#labels startactivity,startactivityforresult,activity
+example of startActivityForResult usage.
