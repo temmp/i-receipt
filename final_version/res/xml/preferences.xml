@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ListPreference android:dialogTitle="Sync frequency" android:key="frequency" android:title="Sync frequency" android:entries="@array/Syncfrequency" android:entryValues="@array/SyncfrequencyValues" android:defaultValue="2"></ListPreference><ListPreference android:dialogTitle="Save receipts duration"
+		android:entries="@array/saveRecDuration" android:entryValues="@array/saveRecDurationValues"
+		android:defaultValue="4" android:key="duration" android:summary="when should old receipts be deleted from the device" android:title="Keep receipts on phone"></ListPreference><CheckBoxPreference android:key="OCR" android:summaryOff="Never perform OCR" android:summaryOn="Always perform OCR" android:title="OCR"></CheckBoxPreference>
+
+	<CheckBoxPreference android:summaryOff="Deletion on Android - does NOT delete on web"
+		android:title="Deletion sync" android:summaryOn="Deletion on Android - DOES delete on web" android:key="delete_sync" android:summary="Deletion on Android - deletes on web?"></CheckBoxPreference><CheckBoxPreference android:key="SDcard" android:summaryOff="Save to device memory" android:summaryOn="Save to SD card" android:title="Images location" android:summary="Location for images to be stored" android:enabled="true"></CheckBoxPreference>
+
+	<CheckBoxPreference android:key="payment_alert" android:title="Monthly Limit Alert" android:summary="Alerts when you pass your monthly defined limit"></CheckBoxPreference>
+
+	<EditTextPreference android:dialogTitle="Payments Limit Alert"
+		android:title="Payments Limit" android:key="limit" android:summary="Payments Limit Alert"></EditTextPreference>
+
+	<PreferenceScreen android:title="Period limit alert" android:summary="set up alert for a time period"><CheckBoxPreference android:key="limit_from_to" android:title="Payments Limit Alert" android:summary="Enable period alert"></CheckBoxPreference><EditTextPreference android:key="fromDate" android:summary="enter start date" android:title="Choosen dates limit alert" android:dialogTitle="Choose date to start" android:dialogMessage="date form - mm/dd/yyyy (01/30/2011)"></EditTextPreference>
+
+<EditTextPreference android:key="limit_period" android:summary="Define your period limit" android:title="Enter period limit"></EditTextPreference>
+</PreferenceScreen><PreferenceScreen android:title="Delete receipts"
+		android:key="deleteall1" android:summary='delete all receipts from the android. if "Delete sync" is checked receipts will be deleted from the web application as well.'>
+
+		<EditTextPreference android:title="Delete all receipts"
+			android:dialogLayout="@layout/delete_all_receipts"
+			android:dialogTitle="Delete receipts" android:key="deleteall2"></EditTextPreference>
+
+	
+</PreferenceScreen>
+
+
+
+
+
+</PreferenceScreen>

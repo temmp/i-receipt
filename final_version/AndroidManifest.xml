@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="google.proj" android:versionCode="1" android:versionName="1.0">
+	<application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
+		<activity android:name=".loginpage" android:label="@string/app_name"
+			android:screenOrientation="portrait">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".idan" android:label="main page">
+		</activity>
+		<activity android:name=".rec_list" android:label="screen of lists">
+		</activity>
+		<activity android:name=".rec_view" android:label="screen of single list">
+		</activity>
+		<activity android:name="compute_receipt" android:label="screen of compute_receipt">
+		</activity>
+		<activity android:name="statistics" android:label="screen of payments statistics">
+		</activity>
+		<activity android:name="listview" android:label="Receipts">
+		</activity>
+		<activity android:name="bigPic" android:label="Receipt image">
+		</activity>
+		<activity android:name=".MainActivity" android:label="Payments per category by Pie Chart ">
+		</activity>
+		<activity android:name=".searchReceipt" android:label="Advance search">
+		</activity>
+		<activity android:name=".settings" android:label="settings">
+		</activity>
+		<activity android:name=".aboutireceipt" android:label="About iReceipt">
+		</activity>
+		<activity android:name=".manual_scan" android:label="Manual scan">
+		</activity>
+		<activity android:name=".Preferences" android:label="Preferences">
+		</activity>
+		<activity android:name=".HelloPreferences" android:label="Preferences">
+		</activity>
+		<activity android:name=".OpeningAnimation" android:label="OpeningAnimation">
+		</activity>
+		<!-- <activity android:name=".prev" android:label="Camera Preview"> </activity> -->
+		<activity android:name=".CameraPreview" android:label="Camera Preview">
+		</activity>
+	</application>
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera.autofocus" />
+	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+	<uses-permission android:name="android.permission.CAMERA"></uses-permission>
+	<uses-permission android:name="android.permission.ACCOUNT_MANAGER"></uses-permission>
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
+	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+</manifest> 

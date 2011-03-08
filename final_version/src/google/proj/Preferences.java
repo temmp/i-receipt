@@ -1,0 +1,153 @@
+package google.proj;
+
+import android.os.Bundle;
+import android.preference.PreferenceActivity;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import java.io.IOException;
+import java.util.Date;
+
+import misc.Misc;
+
+public class Preferences extends PreferenceActivity {
+	SharedPreferences preferences;
+
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// getPreferenceManager().setSharedPreferencesName(Preference.this);
+		addPreferencesFromResource(R.xml.preferences);
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		// getPrefs(); *************************************************
+
+		// Get the custom preference
+		/*
+		 * Preference customPref = (Preference) findPreference("customPref");
+		 * customPref .setOnPreferenceClickListener(new
+		 * OnPreferenceClickListener() {
+		 * 
+		 * public boolean onPreferenceClick(Preference preference) {
+		 * Toast.makeText(getBaseContext(),
+		 * "The custom preference has been clicked", Toast.LENGTH_LONG).show();
+		 * SharedPreferences customSharedPreference = getSharedPreferences(
+		 * "myCustomSharedPrefs", Activity.MODE_PRIVATE);
+		 * SharedPreferences.Editor editor = customSharedPreference .edit();
+		 * editor.putString("myCustomPref", "The preference has been clicked");
+		 * editor.commit(); return true; } });
+		 */
+		/*
+		 * Button prefBtn = (Button) findViewById(R.id.prefButton);
+		 * prefBtn.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View v) { Intent settingsActivity = new
+		 * Intent(getBaseContext(), Preferences.class);
+		 * startActivity(settingsActivity); } });
+		 */
+	}
+
+	public void onBackPressed() {
+		/*
+		 * Editor edit = preferences.edit(); String username =
+		 * preferences.getString("username", "n/a"); edit.putString("username",
+		 * username); edit.commit();
+		 */
+		Editor edit = preferences.edit();
+		String str_limit = preferences.getString("limit", "0");
+		String str_duration = preferences.getString("duration", null);
+		String str_date = preferences.getString("fromDate", null);
+		String str_period_limit = preferences.getString("limit_period", null);
+		String str_frequency = preferences.getString("frequency", null);
+		edit.commit();
+
+		String delete = null;
+		delete = preferences.getString("deleteall2", null);
+		//boolean deleteAllRec = preferences.getBoolean("deleteallrec", false);
+
+		Double limit = 0.0, periodLimit = 0.0;
+		int day, month, year;
+		boolean delete_sync = preferences.getBoolean("delete_sync", false);
+		boolean payment_alert = preferences.getBoolean("payment_alert", false);
+		boolean performOcr = preferences.getBoolean("OCR", false);
+		idan.settings.setPerformOcr(performOcr);
+		boolean savePlace = preferences.getBoolean("SDcard", false);
+		idan.settings.setSavePlace(savePlace);
+		if (payment_alert) {
+
+			// String str_limit = preferences.getString("limit", "0");
+			Double double_limit;
+			try {
+				double_limit = Double.parseDouble(str_limit);
+				if (double_limit > 0)
+					idan.settings.setMaxMonth(double_limit);
+				else
+					idan.settings.setMaxMonth(-1.0);
+			} catch (NumberFormatException ex) {
+				idan.settings.setMaxMonth(-1.0);
+			}
+		}
+		// String str_duration = preferences.getString("duration", null);
+		int duration = Integer.parseInt(str_duration);
+		int frequency = Integer.parseInt(str_frequency);
+		boolean periodAlert = preferences.getBoolean("limit_from_to", false);
+		if (periodAlert) { // only if checkbok == true
+			// String str_date =
+			// preferences.getString("Choose date to start",null);
+			IDate i_date = listview.getDate(str_date);
+			if (i_date != null) {
+				// String str_period_limit =
+				// preferences.getString("limit_period", null);
+				try {
+					periodLimit = Double.parseDouble(str_period_limit);
+					day = i_date.getDay();
+					month = i_date.getMonth();
+					year = i_date.getYear();
+					Date date = new Date(year - 1900, month - 1, day);
+					idan.settings.setDate(date);
+					idan.settings.setMaxUniquely(periodLimit);
+				} catch (NumberFormatException ex) {
+					idan.settings.setMaxUniquely(-1.0);
+				}
+			} else {
+				idan.settings.setDate(null);
+				idan.settings.setMaxUniquely(-1.0);
+			}
+		}
+
+		if (duration == 1) // week
+			idan.settings.setdaysToStay(7);
+		if (duration == 2)// month
+			idan.settings.setdaysToStay(28);
+		if (duration == 3)// year
+			idan.settings.setdaysToStay(365);
+		if (duration == 4)// forever
+			idan.settings.setdaysToStay(-1);
+		idan.settings.setDeleteOnServer(delete_sync);
+
+		idan.settings.setSyncFrequency(frequency);
+
+
+		Misc.saveSetting(this);
+		Misc.makeDelete();
+		if ((delete == null) || (delete == ""))
+			setResult(2000); // do nothing
+		else
+			setResult(7);// delete all receipts
+		
+		finish();
+	}
+}
+

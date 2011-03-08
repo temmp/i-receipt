@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="saveRecDuration">
+		<item>Week</item>
+		<item>Month</item>
+		<item>Year</item>
+		<item>Forever</item>
+	</string-array>
+	<string-array name="saveRecDurationValues">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+	</string-array>
+<string-array name="Syncfrequency"><item>2 min</item>
+<item>5 min</item><item>10 min</item>
+<item>30 min</item>
+
+<item>60 min</item>
+<item>Never</item>
+</string-array>
+<string-array name="SyncfrequencyValues"><item>1</item>
+<item>2</item>
+<item>3</item>
+<item>4</item>
+<item>5</item>
+<item>6</item>
+</string-array>
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:padding="10dip"
+	android:layout_width="fill_parent" android:layout_height="wrap_content">
+
+	<LinearLayout android:id="@+id/LinearLayoutStore"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+		<EditText android:layout_height="50sp" android:layout_width="200sp"
+			android:id="@+id/EditTextStore01" android:maxLines="14"></EditText>
+	</LinearLayout>
+
+	<LinearLayout android:id="@+id/LinearLayout20"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<Button android:text="Set" android:layout_height="50sp"
+			android:layout_width="100sp" android:id="@+id/ButtonStore01"></Button>
+		<Button android:layout_height="50sp" android:text="Cancel"
+			android:layout_width="100sp" android:id="@+id/ButtonStore02"></Button>
+	</LinearLayout>
+</LinearLayout>
